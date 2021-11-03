@@ -14,7 +14,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS results (TA1 real, TA2 real, TA1_2 rea
 #               flow_1 real, flow_2 real, flow_3 real, flow_H2)''')
 
 # Insert a row of data
-cur.execute("INSERT INTO results2 VALUES (:TA1, :TA2, :TA1_2, :TAP, :TB1, :TB2, TB1_2, :TBP, :TC1, :TC2, :TC1_2, :TCP, :TD1, :TD2, :TD1_2, :TDP, :flow_1, :flow_2, :flow_3, :flow_H2)", js)
+cur.execute("INSERT INTO results VALUES (:TA1, :TA2, :TA1_2, :TAP, :TB1, :TB2, :TB1_2, :TBP, :TC1, :TC2, :TC1_2, :TCP, :TD1, :TD2, :TD1_2, :TDP, :flow_1, :flow_2, :flow_3, :flow_H2)", js)
 
 # Save (commit) the changes
 con.commit()
