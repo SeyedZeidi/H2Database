@@ -1,29 +1,24 @@
 #az iot hub monitor-events --hub-name Iothubh2database --device-id H2Heating
 
+from os import EX_SOFTWARE
 import time
 from azure.iot.device import IoTHubDeviceClient, Message
 import json
+import requests
 import datetime
 
-
-
+#Azure Connection
 CONNECTION_STRING = "HostName=Iothubh2database.azure-devices.net;DeviceId=H2Heating;SharedAccessKey=3kDgzO43OJPPRjSEuyFARsF2lBJH8kAm+oo61M/ahaQ="
 
+#local database url
+url = "https://192.168.178.139:8006"
 
-import requests
-
-url = "http://192.168.178.136"
-
-
-
-header = {
-    "metingid": "SYSTEM-1",
-    }
-
+#Initialize client
 def iothub_client_init():  
     client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)  
     return client  
  
+#json
 def get_message():
     a_datetime = datetime.datetime.now()
     formatted_datetime = a_datetime.isoformat()
@@ -70,6 +65,8 @@ def iothub_client_telemetry_sample_run():
  
             print( "Sending message")  
             client.send_message(message)  
+            z = requests.post(url, json = get_message())
+            print(z)
             print ( "Message successfully sent at", formatted_datetime) 
             client.disconnect() 
             time.sleep(5)  
