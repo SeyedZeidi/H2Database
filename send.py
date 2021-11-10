@@ -1,3 +1,5 @@
+#az iot hub monitor-events --hub-name Iothubh2database --device-id H2Heating
+
 import time
 from azure.iot.device import IoTHubDeviceClient, Message
 import json
