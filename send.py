@@ -11,7 +11,7 @@ import datetime
 CONNECTION_STRING = "HostName=Iothubh2database.azure-devices.net;DeviceId=H2Heating;SharedAccessKey=3kDgzO43OJPPRjSEuyFARsF2lBJH8kAm+oo61M/ahaQ="
 
 #local database url
-url = "https://192.168.178.139:8006"
+url = "https://192.168.178.139:5000"
 
 #Initialize client
 def iothub_client_init():  
@@ -24,7 +24,7 @@ def get_message():
     formatted_datetime = a_datetime.isoformat()
     payload = [2,6,54,4,3,23,5,6,7,8,4,6,4,5,5,7,3,4,2,4]
     payload2 = {
-        "TIMESTAMP":formatted_datetime,
+        #"TIMESTAMP":formatted_datetime,
         "TA1":payload[0],
         "TA2":payload[1],
         "TA1_2":payload[2],
@@ -65,8 +65,7 @@ def iothub_client_telemetry_sample_run():
  
             print( "Sending message")  
             client.send_message(message)  
-            z = requests.post(url, json = get_message())
-            print(z)
+            requests.post(url, json = get_message())
             print ( "Message successfully sent at", formatted_datetime) 
             client.disconnect() 
             time.sleep(5)  
