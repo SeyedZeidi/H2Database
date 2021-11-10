@@ -61,12 +61,14 @@ def iothub_client_telemetry_sample_run():
         client = iothub_client_init()  
         print ( "IoT Hub device sending periodic messages, press Ctrl-C to exit" )  
         while True:
+            a_datetime = datetime.datetime.now()
+            formatted_datetime = a_datetime.isoformat()
             client.connect()
             message = Message(get_message())
  
             print( "Sending message")  
             client.send_message(message)  
-            print ( "Message successfully sent" ) 
+            print ( "Message successfully sent at", formatted_datetime) 
             client.disconnect() 
             time.sleep(5)  
  
