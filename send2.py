@@ -6,6 +6,7 @@ from azure.iot.device import IoTHubDeviceClient, Message
 import json
 import requests
 import datetime
+import sys
 
 #Azure Connection
 CONNECTION_STRING = "HostName=Iothubh2database.azure-devices.net;DeviceId=H2Heating;SharedAccessKey=3kDgzO43OJPPRjSEuyFARsF2lBJH8kAm+oo61M/ahaQ="
@@ -19,10 +20,9 @@ def iothub_client_init():
     return client  
  
 #json
-def get_message():
+def get_message(payload):
     a_datetime = datetime.datetime.now()
     formatted_datetime = a_datetime.isoformat()
-    payload = [2,6,54,4,3,23,5,6,7,8,4,6,4,5,5,7,3,4,2,4]
     payload2 = {
         "TIMESTAMP":formatted_datetime,
         "TA1":payload[0],
@@ -52,36 +52,25 @@ def get_message():
             }    
     return json.dumps(payload2)
 
-def iothub_client_telemetry_sample_run():  
-    try:  
-        
+def test1():
+    print("Hello world")
+
+def iothub_client_telemetry_sample_run(payload):  
         client = iothub_client_init()  
         print ( "IoT Hub device sending periodic messages, press Ctrl-C to exit" )  
-        while True:
-            a_datetime = datetime.datetime.now()
-            formatted_datetime = a_datetime.isoformat()
-            
-            client.connect()
-            
-            message = Message(get_message())
+        a_datetime = datetime.datetime.now()
+        formatted_datetime = a_datetime.isoformat()
+        client.connect()
+        message = Message(get_message(payload))
  
-            print("Sending message")  
-            
-            try: 
-                client.send_message(message)  
-            except:
-                print("sending to iot hub failed")
-            #try:
-            requests.post(url, json = get_message())
-            #except:
-                #print("sending to flask failed")
-            print ( "Message successfully sent at", formatted_datetime) 
-            client.disconnect() 
-            time.sleep(5)  
-            
-    except KeyboardInterrupt:  
-        print ( "IoTHubClient sample stopped" )  
+        print( "Sending message")  
+        client.send_message(message)  
+        requests.post(url, json = get_message(payload))
+        print ( "Message successfully sent at", formatted_datetime) 
+        client.disconnect() 
+        time.sleep(5)  
  
+
 
 
  
