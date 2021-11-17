@@ -11,7 +11,7 @@ import datetime
 CONNECTION_STRING = "HostName=Iothubh2database.azure-devices.net;DeviceId=H2Heating;SharedAccessKey=3kDgzO43OJPPRjSEuyFARsF2lBJH8kAm+oo61M/ahaQ="
 
 #local database url
-url = "https://192.168.178.139:5000"
+url = "http://192.168.178.139:5000"
 
 #Initialize client
 def iothub_client_init():  
@@ -71,11 +71,14 @@ def iothub_client_telemetry_sample_run():
                 client.send_message(message)  
             except:
                 print("sending to iot hub failed")
-            #try:
-            requests.post(url, json = get_message())
-            #except:
-                #print("sending to flask failed")
-            print ( "Message successfully sent at", formatted_datetime) 
+            else:  
+                print ( "Message successfully sent to flask at", formatted_datetime) 
+            try:
+                requests.post(url, json = get_message())
+            except:
+                print("sending to flask failed")
+            else:  
+                print ( "Message successfully sent to iot hub at", formatted_datetime) 
             client.disconnect() 
             time.sleep(5)  
             
